@@ -1,0 +1,198 @@
+.timeline-container {
+  display: flex;
+  flex-direction: column;
+  background: #1f2937;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: #111827;
+  border-bottom: 1px solid #374151;
+}
+
+.timeline-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.zoom-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #374151;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.zoom-btn:hover {
+  background: #4b5563;
+}
+
+.zoom-level {
+  font-size: 12px;
+  color: #9ca3af;
+  min-width: 40px;
+  text-align: center;
+}
+
+.time-display {
+  font-size: 14px;
+  color: #e5e7eb;
+  font-family: monospace;
+}
+
+.timeline {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  min-height: 150px;
+  cursor: pointer;
+}
+
+.timeline-content {
+  position: relative;
+  min-height: 100%;
+  padding-top: 24px;
+}
+
+.time-markers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  border-bottom: 1px solid #374151;
+}
+
+.time-marker {
+  position: absolute;
+  height: 100%;
+  border-left: 1px solid #4b5563;
+}
+
+.time-label {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  font-size: 10px;
+  color: #9ca3af;
+  white-space: nowrap;
+}
+
+.scene-layers {
+  position: relative;
+  height: 40px;
+  margin-bottom: 8px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 49px,
+    #374151 49px,
+    #374151 50px
+  );
+}
+
+.scene-block {
+  position: absolute;
+  top: 4px;
+  height: 32px;
+  background: #3b82f6;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  opacity: 0.7;
+}
+
+.scene-name {
+  font-size: 12px;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.element-layers {
+  position: relative;
+  min-height: 60px;
+}
+
+.element-block {
+  position: absolute;
+  top: 8px;
+  height: 44px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4px 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.element-block:hover {
+  transform: translateY(-1px);
+}
+
+.element-block.selected {
+  border-color: #fbbf24;
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+}
+
+.element-name {
+  font-size: 12px;
+  color: white;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.element-type {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+}
+
+.playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.playhead-head {
+  width: 12px;
+  height: 12px;
+  background: #ef4444;
+  border-radius: 2px;
+  transform: translateX(-5px) rotate(45deg);
+  position: absolute;
+  top: 6px;
+}
+
+.playhead-line {
+  width: 2px;
+  height: calc(100% - 18px);
+  background: #ef4444;
+  position: absolute;
+  top: 18px;
+  left: 0;
+}

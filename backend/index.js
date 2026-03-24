@@ -7,6 +7,8 @@ const express = require('express');
 const cors = require('cors');
 const animationRoutes = require('./routes/animations');
 const projectRoutes = require('./routes/projects');
+const renderRoutes = require('./routes/render');
+const aiRoutes = require('./routes/ai');
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -18,6 +20,8 @@ app.use(express.json());
 // Routes
 app.use('/api', animationRoutes);
 app.use('/api', projectRoutes);
+app.use('/api', renderRoutes);
+app.use('/api', aiRoutes);
 
 // Health check endpoint
 app.get('/', (req, res) => {
