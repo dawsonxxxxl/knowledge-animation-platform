@@ -4,48 +4,42 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Knowledge Animation Platform - an educational animation platform for creating knowledge animations using Manim and video generation AI.
-
-## Common Commands
-
-```bash
-# Frontend development
-cd frontend
-npm install        # Install dependencies
-npm run dev        # Start Vite dev server
-npm run build      # Build for production
-npm run lint       # Run ESLint
-
-# Backend development
-cd backend
-npm install        # Install Node.js dependencies
-node index.js      # Start Node.js Express server
-python main.py     # Start Python FastAPI server (for animation generation)
-```
-
-## Architecture
+Knowledge Animation Platform - an educational animation platform for creating knowledge animations using Manim and React-based editing.
 
 ### Frontend
 - **Framework**: React 19 + TypeScript with Vite 8
 - **Entry point**: `frontend/src/main.tsx`
 - **Main component**: `frontend/src/App.tsx`
-- **Linting**: ESLint with React hooks plugin
-- **Dev server port**: Vite defaults (5173)
+- **Dev server port**: 5173 (Vite default)
 
 ### Backend (Node.js)
 - **Framework**: Express 5 with CORS
 - **Entry point**: `backend/index.js`
-- **API routes**:
-  - `backend/routes/animations.js` - Animation generation endpoints (POST/GET)
-  - `backend/routes/projects.js` - Project CRUD endpoints (POST/GET)
-- **Storage**: In-memory arrays (no database yet)
 - **Server port**: 8000 (or `PORT` env var)
+- **Module system**: CommonJS (`"type": "commonjs"` in package.json)
 
 ### Backend (Python)
-- **Framework**: FastAPI
-- **Entry point**: `backend/main.py`
-- **Purpose**: Animation generation with Manim/CogVideoX (not yet implemented)
-- **Server port**: 8000
+- **Entry point**: `backend/manim_generator.py` (standalone script, not a running server)
+- **Purpose**: Generates Manim Python code and renders animations
+- **Output**: Renders to `backend/output/`
+
+## Common Commands
+
+```bash
+# Frontend
+cd frontend
+npm install
+npm run dev        # Start Vite dev server
+npm run build      # Build for production
+npm run lint       # Run ESLint
+
+# Backend
+cd backend
+npm install        # Install Node.js dependencies
+node index.js      # Start Express server
+```
+
+Note: Python backend is invoked via the Node.js server, not run separately. Manim is called directly by `manim_generator.py`.
 
 ## API Endpoints
 
@@ -53,16 +47,29 @@ python main.py     # Start Python FastAPI server (for animation generation)
 |--------|----------|-------------|
 | GET | `/` | API info |
 | GET | `/health` | Health check |
-| GET | `/api/projects` | List projects |
-| POST | `/api/projects` | Create project |
+| GET/POST | `/api/projects` | List/Create projects |
 | GET | `/api/projects/:id` | Get project by ID |
-| POST | `/api/animations` | Generate animation |
+| GET/POST | `/api/animations` | List/Create animations |
 | GET | `/api/animations/:id` | Get animation status |
+| GET/POST | `/api/render` | List/Create render jobs |
+| GET | `/api/render/:id` | Get render job status |
+| POST | `/api/preview` | Get preview frame at time |
+| POST | `/api/ai/generate` | AI-generate animation structure |
+| POST | `/api/ai/layout` | Get layout suggestions |
+| POST | `/api/ai/recommend` | Get smart recommendations |
 
-## Development Notes
+## Data Structures
 
-- The Node.js backend uses CommonJS (`"type": "commonjs"` in package.json)
-- The Python backend has a virtual environment at `backend/venv/`
-- Animation generation logic is not yet implemented (TODOs in `backend/routes/animations.js`)
-- No database - data stored in-memory
-- Frontend makes API calls to backend on port 8000
+Projects and compositions use these types (see `frontend/src/types/index.ts`):
+- **Composition**: Contains scenes, fps, dimensions
+- **Scene**: Contains elements, duration, backgroundColor
+- **Element**: Text, equation, shape, chart, image with properties
+
+## Architecture Notes
+
+- Frontend makes API calls to Node.js backend on port 8000
+- Node.js backend proxies animation generation to Python (`manim_generator.py`)
+- Render jobs simulate progress asynchronously (in-memory)
+- AI routes provide mock generation (not connected to actual AI)
+- No database - all data stored in-memory
+- Animation files render to `backend/output/` directory
