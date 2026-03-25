@@ -5,6 +5,7 @@
 
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const animationRoutes = require('./routes/animations');
 const projectRoutes = require('./routes/projects');
 const renderRoutes = require('./routes/render');
@@ -16,6 +17,9 @@ const PORT = process.env.PORT || 8000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Serve rendered videos statically
+app.use('/output', express.static(path.join(__dirname, 'output', 'media', 'videos')));
 
 // Routes
 app.use('/api', animationRoutes);

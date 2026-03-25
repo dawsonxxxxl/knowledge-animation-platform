@@ -215,6 +215,22 @@ export const AnimationEditor: React.FC = () => {
         format: exportFormat,
         quality: exportQuality,
         fps: exportFps,
+        composition: {
+          scenes: composition.scenes.map(scene => ({
+            name: scene.name,
+            elements: scene.elements.map(elem => ({
+              id: elem.id,
+              type: elem.type,
+              name: elem.name,
+              startTime: elem.startTime,
+              endTime: elem.endTime,
+              properties: elem.properties as unknown as Record<string, unknown>,
+            })),
+          })),
+          fps: composition.fps,
+          width: composition.width,
+          height: composition.height,
+        },
       });
       setRenderJob({
         id: result.jobId,
@@ -230,7 +246,7 @@ export const AnimationEditor: React.FC = () => {
     } catch (error) {
       console.error('Failed to start render:', error);
     }
-  }, [composition.id, exportFormat, exportQuality, exportFps]);
+  }, [composition, exportFormat, exportQuality, exportFps]);
 
   // Poll for render status
   useEffect(() => {

@@ -24,6 +24,22 @@ export interface RenderOptions {
   format: 'mp4' | 'webm' | 'gif';
   quality: 'low' | 'medium' | 'high';
   fps: number;
+  composition?: {
+    scenes: Array<{
+      name: string;
+      elements: Array<{
+        id: string;
+        type: string;
+        name: string;
+        startTime: number;
+        endTime: number;
+        properties: Record<string, unknown>;
+      }>;
+    }>;
+    fps: number;
+    width: number;
+    height: number;
+  };
 }
 
 export const renderService = {
